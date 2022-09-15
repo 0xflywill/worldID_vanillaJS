@@ -17,22 +17,27 @@ if (accounts.length !== 0) {
 const chainId = await ethereum.request({ method: 'eth_chainId' });
 console.log('chainId: ', chainId)
 
-worldID.init("world-id-container", {
-  enable_telemetry: false,
-  action_id: "wid_staging_034a32eef8f9c2d4ac2cca30890c2e76", // obtain this from developer.worldcoin.org
-  signal: document.getElementById("verificationSignal").value,
+// worldID verify event listener
+document.addEventListener("DOMContentLoaded", async function () {
+  console.log("loading World ID");
+  worldID.init("world-id-container", {
+    enable_telemetry: false,
+    action_id: "wid_staging_034a32eef8f9c2d4ac2cca30890c2e76", // obtain this from developer.worldcoin.org
+    on_success: onWorldIDVerified,
+  });
 });
 
-
+function onWorldIDVerified (proof) {
+  console.log('world id verified!!')
+  console.log(proof);
+}
 
 // to set/update the signal param individually if needs
 function setSignal() {
   const newSignal = document.getElementById("verificationSignal").value
-  worldID.update("world-id-container", {
+  worldID.update({
     signal: newSignal,
   });
-  console.log("updated signal: ", newSignal)
-  worldID.enable()
 }
 
 // sc call: isAdmin(<address>)
