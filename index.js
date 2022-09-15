@@ -18,14 +18,13 @@ const chainId = await ethereum.request({ method: 'eth_chainId' });
 console.log('chainId: ', chainId)
 
 // worldID verify event listener
-document.addEventListener("DOMContentLoaded", async function () {
-  console.log("loading World ID");
-  worldID.init("world-id-container", {
-    enable_telemetry: false,
-    action_id: "wid_staging_034a32eef8f9c2d4ac2cca30890c2e76", // obtain this from developer.worldcoin.org
-    on_success: onWorldIDVerified,
-  });
+console.log("loading World ID");
+worldID.init("world-id-container", {
+  enable_telemetry: false,
+  action_id: "wid_staging_034a32eef8f9c2d4ac2cca30890c2e76", // obtain this from developer.worldcoin.org
+  on_success: onWorldIDVerified,
 });
+
 
 function onWorldIDVerified (proof) {
   console.log('world id verified!!')
@@ -136,20 +135,6 @@ function loadData() {
   const scratchpad = document.getElementById("scratchpad")
   scratchpad.value = JSON.parse(localStorage.getItem(STORAGE_STUB + "scratchpad"))
   console.log("loaded scratchpad: ", scratchpad.value)
-
-
-  // worldID verify event listener
-   document.addEventListener("DOMContentLoaded", async function () {
-    console.log("DOMContentLoaded listener fired")  // debugging: confimation event has fired
-    try {
-      const result = await worldID.enable();
-      console.log("World ID verified successfully:", result);
-    } catch (failure) {
-      console.warn("World ID verification failed:", failure);
-      // Re-activate here so your end user can try again
-      worldID.enable()
-    }
-  });
 
   // event listeners
   var signal_Btn = document.getElementById("signal_Btn");
